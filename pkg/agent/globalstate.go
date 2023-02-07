@@ -48,6 +48,7 @@ func podIsOurResponsibility(pod *corev1.Pod, config *Config, nodeName string) bo
 	return pod.Spec.NodeName == nodeName &&
 		pod.Status.PodIP != "" &&
 		pod.Spec.SchedulerName == config.Scheduler.SchedulerName &&
+		api.HasAutoscalingEnabled(pod) &&
 		util.PodReady(pod)
 }
 

@@ -83,11 +83,12 @@ func makeAutoscaleEnforcerPlugin(ctx context.Context, obj runtime.Object, h fram
 		return nil, err
 	}
 
-	// Start watching deletion events...
+	// Start watching Pod/VM events...
 	vmDeletions := make(chan api.PodName)
+	vmDisabledScaling := make(chan api.PodName)
 	podDeletions := make(chan api.PodName)
 	klog.Infof("[autoscale-enforcer] Starting pod deletion watcher")
-	if err := p.watchPodDeletions(ctx, vmDeletions, podDeletions); err != nil {
+	if err := p.watchPodEvents(ctx, vmDeletions, vmDisabledScaling, podDeletions); err != nil {
 		return nil, fmt.Errorf("Error starting VM deletion watcher: %w", err)
 	}
 
@@ -107,6 +108,8 @@ func makeAutoscaleEnforcerPlugin(ctx context.Context, obj runtime.Object, h fram
 				return
 			case name := <-vmDeletions:
 				p.handleVMDeletion(name)
+			case name := <-vmDisabledScaling:
+				p.handleVMDisabledScaling(name)
 			case name := <-podDeletions:
 				p.handlePodDeletion(name)
 			}
