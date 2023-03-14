@@ -13,8 +13,8 @@ import (
 	klog "k8s.io/klog/v2"
 	"k8s.io/kubernetes/pkg/scheduler/framework"
 
-	vmapi "github.com/neondatabase/neonvm/apis/neonvm/v1"
-	vmclient "github.com/neondatabase/neonvm/client/clientset/versioned"
+	vmapi "github.com/neondatabase/autoscaling/neonvm/apis/neonvm/v1"
+	vmclient "github.com/neondatabase/autoscaling/neonvm/client/clientset/versioned"
 
 	"github.com/neondatabase/autoscaling/pkg/api"
 	"github.com/neondatabase/autoscaling/pkg/util"

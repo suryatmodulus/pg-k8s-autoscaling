@@ -35,7 +35,7 @@ func GetBuildInfo() BuildInfo {
 
 		// Find neonvm:
 		for _, m := range buildInfo.Deps {
-			if m.Path == "github.com/neondatabase/neonvm" {
+			if m.Path == "github.com/neondatabase/autoscaling/neonvm" {
 				neonvmVersion = m.Version
 				break
 			}
